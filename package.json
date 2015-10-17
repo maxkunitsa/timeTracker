@@ -4,7 +4,7 @@
   "description": "A Time Tracker Application",
   "main": "web.js",
   "scripts": {
-    "start": "node web.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "ejs": "2.3.3",
