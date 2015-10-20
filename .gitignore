@@ -3,3 +3,6 @@ client/node_modules
 client/.tmp
 client/.sass-cache
 client/bower_components
+server/target
+server/.idea/
+server/server.iml
