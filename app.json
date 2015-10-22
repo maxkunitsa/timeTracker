@@ -1,5 +1,0 @@
-{
-  "name": "Time Tracker Application",
-  "repository": "https://github.com/maxkunitsa/timeTracker",
-  "image": "heroku/nodejs"
-}
