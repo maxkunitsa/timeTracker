@@ -24,16 +24,30 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/NavCtrl.js"></script>
     <script src="scripts/controllers/LoginCtrl.js"></script>
+    <script src="scripts/timesheet/TimeSheetCtrl.js"></script>
     <!-- endbuild -->
 
   </head>
-  <body ng-app="app">
-    <div ui-view style="height:100%"></div>
+  <body ng-app="app" ng-controller="AppCtrl" ng-class="{'nav-expanded': GlobalParams.navExpanded}">
+    <aside id="app-nav" ng-include="'views/nav.html'" ng-if="GlobalParams.isAuthenticated"></aside>
+    <div id="content-wrapper">
+      <header id="content-header">
+        <h1 class="page-title">Timesheet</h1>
+        <a>
+          <span class="icon icon-add-time"></span>
+          <span class="link-text">New entry</span>
+        </a>
+      </header>
+      <main id="content" ui-view></main>
+    </div>
   </body>
 </html>

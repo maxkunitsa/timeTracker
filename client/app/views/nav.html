@@ -1,0 +1,20 @@
+<div class="nav-content" ng-controller="NavCtrl">
+    <div id="profile-block">
+        <p class="profile-avatar">
+            <img ng-src="{{GlobalParams.userData.avatar}}"/>
+        </p>
+        <p class="profile-name">{{GlobalParams.userData.firstName + ' ' + GlobalParams.userData.lastName}}</p>
+        <p class="profile-company">{{GlobalParams.userData.company}}</p>
+    </div>
+    <nav id="main-nav" class="nav">
+        <h3>Main</h3>
+        <ul>
+            <li ng-repeat="item in DataNav.MainNavList" ng-class="{active: item.href === GlobalParams.activePage}">
+                <a ng-href="{{item.href}}" title="{{item.title}}">
+                    <span class="icon icon-{{item.icon}}"></span>
+                    <span class="link-text">{{item.title}}</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

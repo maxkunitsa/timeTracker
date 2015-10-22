@@ -1,0 +1,8 @@
+{
+  "_comment": "-----general------",
+  "_comment": "-----menu-------",
+  "menu_dashboard": "Dashboard",
+  "menu_timesheet": "Timesheet",
+  "menu_projects": "Projects",
+  "menu_reports": "Reports"
+}

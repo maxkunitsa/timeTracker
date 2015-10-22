@@ -1,0 +1,11 @@
+<h2><span class="semibold">Thursday</span> <span class="grey">22 Oct</span></h2>
+<ul>
+    <li ng-repeat="item in PageData.DayData" ng-class="{active: item.id === PageData.activeDay}" ng-click="PageData.activeDay = item.id">
+        <span class="day-name">{{item.dayName}}</span>
+        <span class="day-time">{{item.dayTime}}</span>
+    </li>
+    <li>
+        <span class="day-name">Total</span>
+        <span class="day-time">4:45</span>
+    </li>
+</ul>
