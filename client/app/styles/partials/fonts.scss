@@ -1,0 +1,87 @@
+/* fonts */
+@font-face {
+  font-family: 'cooper_hewittbold';
+  src: url('../fonts/CooperHewitt-Bold-webfont.eot');
+  src: url('../fonts/CooperHewitt-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/CooperHewitt-Bold-webfont.woff2') format('woff2'),
+  url('../fonts/CooperHewitt-Bold-webfont.woff') format('woff'),
+  url('../fonts/CooperHewitt-Bold-webfont.ttf') format('truetype'),
+  url('../fonts/CooperHewitt-Bold-webfont.svg#cooper_hewittbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'cooper_hewittbook';
+  src: url('../fonts/CooperHewitt-Book-webfont.eot');
+  src: url('../fonts/CooperHewitt-Book-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/CooperHewitt-Book-webfont.woff2') format('woff2'),
+  url('../fonts/CooperHewitt-Book-webfont.woff') format('woff'),
+  url('../fonts/CooperHewitt-Book-webfont.ttf') format('truetype'),
+  url('../fonts/CooperHewitt-Book-webfont.svg#cooper_hewittbook') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'cooper_hewittsemibold';
+  src: url('../fonts/CooperHewitt-Semibold-webfont.eot');
+  src: url('../fonts/CooperHewitt-Semibold-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/CooperHewitt-Semibold-webfont.woff2') format('woff2'),
+  url('../fonts/CooperHewitt-Semibold-webfont.woff') format('woff'),
+  url('../fonts/CooperHewitt-Semibold-webfont.ttf') format('truetype'),
+  url('../fonts/CooperHewitt-Semibold-webfont.svg#cooper_hewittsemibold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'geometria_lightlight';
+  src: url('../fonts/Geometria-Light-webfont.eot');
+  src: url('../fonts/Geometria-Light-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Geometria-Light-webfont.woff2') format('woff2'),
+  url('../fonts/Geometria-Light-webfont.woff') format('woff'),
+  url('../fonts/Geometria-Light-webfont.ttf') format('truetype'),
+  url('../fonts/Geometria-Light-webfont.svg#geometria_lightlight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'icomoon';
+  src:url('../fonts/icomoon.eot?axt08g');
+  src:url('../fonts/icomoon.eot?axt08g#iefix') format('embedded-opentype'),
+  url('../fonts/icomoon.ttf?axt08g') format('truetype'),
+  url('../fonts/icomoon.woff?axt08g') format('woff'),
+  url('../fonts/icomoon.svg?axt08g#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"], [class*=" icon-"] {
+  display: inline-block;
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-add-time:before {
+  content: "\e905";
+}
+.icon-reports:before {
+  content: "\e902";
+}
+.icon-projects:before {
+  content: "\e903";
+}
+.icon-hammer:before {
+  content: "\e904";
+}
+.icon-dashboard:before {
+  content: "\e901";
+}
+.icon-timesheet:before {
+  content: "\e900";
+}
+
