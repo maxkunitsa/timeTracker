@@ -9,9 +9,9 @@
     <nav id="main-nav" class="nav">
         <h3>Main</h3>
         <ul>
-            <li ng-repeat="item in DataNav.MainNavList" ng-class="{active: item.href === GlobalParams.activePage}">
+            <li ng-repeat="item in DataNav.MainNavList" ng-class="{active: item.name === GlobalParams.activePage}">
                 <a ng-href="{{item.href}}" title="{{item.title}}">
-                    <span class="icon icon-{{item.icon}}"></span>
+                    <span class="icon icon-{{item.name}}"></span>
                     <span class="link-text">{{item.title}}</span>
                 </a>
             </li>

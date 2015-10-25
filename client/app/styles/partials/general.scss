@@ -1,3 +1,29 @@
+.no-auth {
+  #app-nav {
+    display: none;
+  }
+  #content-header {
+    display: none;
+  }
+  #content-wrapper {
+    padding-left: 0;
+  }
+  #content {
+    padding: 20px;
+  }
+}
+
+.form-holder.form-login {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -150px 0 0 -150px;
+  background: #fff;
+  border-radius: 5px;
+}
+
 /* app nav */
 #app-nav {
   position: fixed;

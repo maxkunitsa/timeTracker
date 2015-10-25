@@ -1,8 +1,8 @@
-<!doctype html>
-<html class="no-js">
+<!Doctype html>
+<html class="no-js" ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>{{GlobalParams.PageTitle}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -34,15 +34,18 @@
     <script src="scripts/controllers/NavCtrl.js"></script>
     <script src="scripts/controllers/LoginCtrl.js"></script>
     <script src="scripts/timesheet/TimeSheetCtrl.js"></script>
+    <script src="scripts/dashboard/DashboardCtrl.js"></script>
+    <script src="scripts/reports/ReportsCtrl.js"></script>
+    <script src="scripts/projects/ProjectsCtrl.js"></script>
     <!-- endbuild -->
 
   </head>
-  <body ng-app="app" ng-controller="AppCtrl" ng-class="{'nav-expanded': GlobalParams.navExpanded}">
+  <body ng-controller="AppCtrl" ng-class="{'nav-expanded': GlobalParams.navExpanded, 'no-auth': !GlobalParams.isAuthenticated}">
     <aside id="app-nav" ng-include="'views/nav.html'" ng-if="GlobalParams.isAuthenticated"></aside>
     <div id="content-wrapper">
-      <header id="content-header">
-        <h1 class="page-title">Timesheet</h1>
-        <a>
+      <header id="content-header" ng-if="GlobalParams.isAuthenticated">
+        <h1 class="page-title">{{GlobalParams.PageTitle}}</h1>
+        <a ng-if="GlobalParams.activePage === 'timesheet'">
           <span class="icon icon-add-time"></span>
           <span class="link-text">New entry</span>
         </a>
