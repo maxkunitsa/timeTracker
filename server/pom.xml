@@ -191,5 +191,10 @@
             <version>${ninja.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ninja.jongo</groupId>
+            <artifactId>ninja-jongo-module</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
