@@ -196,5 +196,10 @@
             <artifactId>ninja-jongo-module</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.7</version>
+        </dependency>
     </dependencies>
 </project>
