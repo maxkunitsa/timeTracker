@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import exceptions.UserAlreadyExistsException;
 import models.User;
 import models.dto.Error;
 import ninja.Context;
@@ -9,6 +10,7 @@ import ninja.Result;
 import ninja.Results;
 import ninja.validation.JSR303Validation;
 import ninja.validation.Validation;
+import org.slf4j.Logger;
 import services.UserService;
 import utils.I18N;
 
@@ -22,6 +24,9 @@ import utils.I18N;
 public class UserController {
     @Inject
     private UserService userService;
+
+    @Inject
+    private Logger log;
 
     @Inject
     private I18N i18n;
@@ -38,11 +43,18 @@ public class UserController {
 
         try {
             user = userService.register(user);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return Results.internalServerError().json().render(new Error(e.getMessage()));
-        }
+            log.info("Registered user: {}", user.getEmail());
+            return Results.ok().json().render(user);
+        } catch (UserAlreadyExistsException uaee) {
+            log.warn("Trying to register existing user: {}", user.getEmail());
+            String message = i18n.get("exceptions.user.alreadyExists", user.getEmail());
 
-        return Results.ok().json().render(user);
+            return Results.status(409).json().render(new Error(message));
+        } catch (Throwable e) {
+            log.error("Internal Server Error", e);
+            String message = i18n.get("exceptions.internal.server.error");
+
+            return Results.internalServerError().json().render(new Error(message));
+        }
     }
 }
