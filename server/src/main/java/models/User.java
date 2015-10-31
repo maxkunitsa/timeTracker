@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 /**
  * Represents a person, who use the system.
- *
+ * <p/>
  * Author: Aleksandr Savvopulo
  * Date: 26.10.2015
  */
@@ -17,13 +17,16 @@ public class User {
     @MongoObjectId
     private String id;
 
+    @Size(min = 1, max = 128)
     private String firstName;
 
+    @Size(min = 1, max = 128)
     private String lastName;
 
+    @Size(min = 3, max = 255)
     private String email;
 
-    @Size(min = 1, message = "{size.exceede}")
+    @Size(min = 6, max = 255)
     private String password;
 
     public User() {
