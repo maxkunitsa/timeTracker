@@ -1,5 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import models.serialization.JsonViews;
 import org.jongo.marshall.jackson.oid.MongoId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
@@ -15,18 +18,23 @@ public class User {
 
     @MongoId
     @MongoObjectId
+    @JsonView(JsonViews.Public.class)
     private String id;
 
     @Size(min = 1, max = 128)
+    @JsonView(JsonViews.Public.class)
     private String firstName;
 
     @Size(min = 1, max = 128)
+    @JsonView(JsonViews.Public.class)
     private String lastName;
 
     @Size(min = 3, max = 255)
+    @JsonView(JsonViews.Public.class)
     private String email;
 
     @Size(min = 6, max = 255)
+    @JsonIgnore
     private String password;
 
     public User() {

@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import exceptions.UserAlreadyExistsException;
 import models.User;
 import models.dto.Error;
+import models.serialization.JsonViews;
 import ninja.Context;
 import ninja.Result;
 import ninja.Results;
@@ -44,12 +45,12 @@ public class UserController {
         try {
             user = userService.register(user);
             log.info("Registered user: {}", user.getEmail());
-            return Results.ok().json().render(user);
+
+            return Results.ok().json().jsonView(JsonViews.Public.class).render(user);
         } catch (UserAlreadyExistsException uaee) {
             log.warn("Trying to register existing user: {}", user.getEmail());
-            String message = i18n.get("exceptions.user.alreadyExists", user.getEmail());
 
-            return Results.status(409).json().render(new Error(message));
+            return Results.status(409).json().render(new Error(uaee.getMessage()));
         } catch (Throwable e) {
             log.error("Internal Server Error", e);
             String message = i18n.get("exceptions.internal.server.error");
