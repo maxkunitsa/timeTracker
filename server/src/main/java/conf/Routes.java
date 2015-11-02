@@ -33,6 +33,7 @@ public class Routes implements ApplicationRoutes {
         
         /* User management */
         router.POST().route("/users/register").with(UserController.class, "register");
+        router.GET().route("/users/login").with(UserController.class, "login");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
