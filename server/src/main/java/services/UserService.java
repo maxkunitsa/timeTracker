@@ -66,10 +66,29 @@ public class UserService {
     }
 
     /**
+     * Returns user by its credentials.
+     *
+     * @param email    email which user has
+     * @param password secret phrase
+     * @return User object found by its credentials
+     */
+    public User authorize(String email, String password) {
+        try {
+            byte[] salt = getSalt(email);
+            String encodedPassword = encodePassword(password, salt);
+            String query = "{email: #, password: #}";
+
+            return users.findOne(query, email, encodedPassword).as(User.class);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Encoding password using salt.
      *
      * @param password password to be encoded
-     * @param salt salt
+     * @param salt     salt
      * @return encoded password
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
