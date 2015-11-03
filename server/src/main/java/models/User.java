@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     @Size(min = 6, max = 255)
-    @JsonIgnore
+    @JsonView(JsonViews.Private.class)
     private String password;
 
     public User() {

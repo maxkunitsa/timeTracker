@@ -9,8 +9,12 @@ package models.serialization;
  */
 public class JsonViews {
     /**
-     * Fields that could be accessed without
-     * authorization.
+     * Fields should be available on client side for any role.
      */
     public static class Public{}
+
+    /**
+     * Fields shouldn't be rendered to client side at all.
+     */
+    public static class Private{}
 }
