@@ -7,6 +7,7 @@ import exceptions.Exceptions;
 import exceptions.UserAlreadyExistsException;
 import models.User;
 import ninja.jongo.annotations.InjectMongoCollection;
+import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 
 import javax.crypto.SecretKeyFactory;
@@ -68,7 +69,7 @@ public class UserService {
     /**
      * Returns user by its credentials.
      *
-     * @param email    email which user has
+     * @param email    user's email
      * @param password secret phrase
      * @return User object found by its credentials
      */
@@ -82,6 +83,17 @@ public class UserService {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    /**
+     * Returns user by id.
+     *
+     * @param id user's id
+     * @return user object if found, null - otherwise
+     */
+    public User getById(String id) {
+        return users.findOne(new ObjectId(id)).as(User.class);
     }
 
     /**

@@ -6,14 +6,18 @@ import exceptions.UserAlreadyExistsException;
 import models.User;
 import models.dto.Error;
 import models.serialization.JsonViews;
-import ninja.Context;
-import ninja.Result;
-import ninja.Results;
+import ninja.*;
+import ninja.session.Session;
+import ninja.utils.NinjaConstant;
 import ninja.validation.JSR303Validation;
 import ninja.validation.Validation;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import services.UserService;
+import utils.Constants;
 import utils.I18N;
+
+import java.nio.charset.Charset;
 
 /**
  * User management controller.
@@ -57,5 +61,33 @@ public class UserController {
 
             return Results.internalServerError().json().render(new Error(message));
         }
+    }
+
+    public Result login(Context context, Session session) {
+        String header = context.getHeader("Authorization");
+
+        if (header != null && header.startsWith("Basic")) {
+            // Authorization: Basic BASE64PACKET
+            String packet = header.substring("Basic".length()).trim();
+            String credentials = new String(Base64.decodeBase64(packet),
+                    Charset.forName(NinjaConstant.UTF_8));
+
+            // credentials = email:password
+            final String[] values = credentials.split(":", 2);
+            final String email = values[0];
+            final String password = values[1];
+
+            User user = userService.authorize(email, password);
+
+            if (user != null) {
+                session.put(Constants.Session.USER_ID, user.getId());
+
+                return Results.ok().json().jsonView(JsonViews.Public.class).render(user);
+            }
+        }
+
+        String message = i18n.get("ninja.system.unauthorized.text");
+
+        return Results.unauthorized().json().render(new Error(message));
     }
 }
