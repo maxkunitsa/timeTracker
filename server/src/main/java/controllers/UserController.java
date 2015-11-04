@@ -15,6 +15,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import services.UserService;
 import utils.Constants;
+import utils.HttpStatuses;
 import utils.I18N;
 
 import java.nio.charset.Charset;
@@ -53,7 +54,7 @@ public class UserController {
         } catch (UserAlreadyExistsException uaee) {
             log.warn("Trying to register existing user: {}", user.getEmail());
 
-            return Results.status(409).json().render(new Error(uaee.getMessage()));
+            return Results.status(HttpStatuses.CONFLICT).json().render(new Error(uaee.getMessage()));
         } catch (Throwable e) {
             log.error("Internal Server Error", e);
             String message = i18n.get("exceptions.internal.server.error");
