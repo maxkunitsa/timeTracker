@@ -1,10 +1,12 @@
 package services;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Singleton;
 import exceptions.Exceptions;
 import models.Project;
 import ninja.jongo.annotations.InjectMongoCollection;
 import org.jongo.MongoCollection;
+import org.jongo.MongoCursor;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -30,7 +32,9 @@ public class ProjectService {
      * @return list of Project entities
      */
     public List<Project> getAll() {
-        return new ArrayList<>();
+        MongoCursor<Project> results = projects.find().as(Project.class);
+
+        return Lists.newArrayList(results.iterator());
     }
 
     /**

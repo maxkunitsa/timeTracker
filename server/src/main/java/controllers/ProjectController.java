@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import services.ProjectService;
 import utils.I18N;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Project management controller
  * <p/>
@@ -33,7 +36,9 @@ public class ProjectController {
 
     @FilterWith(AuthFilter.class)
     public Result list() {
-        return Results.ok().json().render("projects list");
+        List<Project> projects = projectService.getAll();
+
+        return Results.ok().json().jsonView(JsonViews.Public.class).render(projects);
     }
 
     @FilterWith(AuthFilter.class)
