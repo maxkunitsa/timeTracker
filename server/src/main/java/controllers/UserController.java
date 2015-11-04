@@ -36,11 +36,10 @@ public class UserController {
     @Inject
     private I18N i18n;
 
-    public Result register(Context context,
-                           @JSR303Validation User user,
+    public Result register(@JSR303Validation User user,
                            Validation validation) {
 
-        if (validation.hasViolations()) {
+        if (user == null || validation.hasViolations()) {
             String errorMessage = i18n.get("validation.payload.badFormat");
 
             return Results.badRequest().json().render(new Error(errorMessage));
