@@ -17,6 +17,7 @@
 package conf;
 
 
+import controllers.ProjectController;
 import controllers.UserController;
 import ninja.AssetsController;
 import ninja.Router;
@@ -34,6 +35,10 @@ public class Routes implements ApplicationRoutes {
         /* User management */
         router.POST().route("/users/register").with(UserController.class, "register");
         router.GET().route("/users/login").with(UserController.class, "login");
+
+        /* Project management */
+        router.GET().route("/projects").with(ProjectController.class, "list");
+        router.POST().route("/projects/create").with(ProjectController.class, "create");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
