@@ -4,9 +4,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import exceptions.UserAlreadyExistsException;
 import models.User;
-import models.dto.Error;
-import models.serialization.JsonViews;
-import ninja.*;
+import ninja.Context;
+import ninja.Result;
 import ninja.session.Session;
 import ninja.utils.NinjaConstant;
 import ninja.validation.JSR303Validation;
@@ -15,8 +14,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import services.UserService;
 import utils.Constants;
-import utils.HttpStatuses;
-import utils.I18N;
+import utils.ResultsBuilder;
 
 import java.nio.charset.Charset;
 
@@ -35,31 +33,28 @@ public class UserController {
     private Logger log;
 
     @Inject
-    private I18N i18n;
+    private ResultsBuilder resultsBuilder;
 
     public Result register(@JSR303Validation User user,
                            Validation validation) {
 
         if (user == null || validation.hasViolations()) {
-            String errorMessage = i18n.get("validation.payload.badFormat");
-
-            return Results.badRequest().json().render(new Error(errorMessage));
+            return resultsBuilder.validation().payloadBadFormat();
         }
 
         try {
             user = userService.register(user);
             log.info("Registered user: {}", user.getEmail());
 
-            return Results.ok().json().jsonView(JsonViews.Public.class).render(user);
+            return resultsBuilder.users().ok(user);
         } catch (UserAlreadyExistsException uaee) {
             log.warn("Trying to register existing user: {}", user.getEmail());
 
-            return Results.status(HttpStatuses.CONFLICT).json().render(new Error(uaee.getMessage()));
+            return resultsBuilder.users().userAlreadyExists(user);
         } catch (Throwable e) {
             log.error("Internal Server Error", e);
-            String message = i18n.get("exceptions.internal.server.error");
 
-            return Results.internalServerError().json().render(new Error(message));
+            return resultsBuilder.system().internalServerError();
         }
     }
 
@@ -82,12 +77,10 @@ public class UserController {
             if (user != null) {
                 session.put(Constants.Session.USER_ID, user.getId());
 
-                return Results.ok().json().jsonView(JsonViews.Public.class).render(user);
+                return resultsBuilder.users().ok(user);
             }
         }
 
-        String message = i18n.get("ninja.system.unauthorized.text");
-
-        return Results.unauthorized().json().render(new Error(message));
+        return resultsBuilder.system().unauthorized();
     }
 }
