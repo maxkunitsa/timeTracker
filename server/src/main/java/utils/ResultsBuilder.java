@@ -19,12 +19,20 @@ import java.util.List;
 @Singleton
 public class ResultsBuilder {
     @Inject
+    private I18N i18n;
+
+    @Inject
     private Router router;
 
     private ProjectResults projects = new ProjectResults();
+    private ValidationResults validation = new ValidationResults();
 
     public ProjectResults projects() {
         return projects;
+    }
+
+    public ValidationResults validation(){
+        return validation;
     }
 
     public class ProjectResults {
@@ -36,6 +44,32 @@ public class ResultsBuilder {
             String resourceUrl = router.getReverseRoute(ProjectController.class, "getById", "id", project.getId());
 
             return Results.created(Optional.of(resourceUrl)).json().jsonView(JsonViews.Public.class).render(project);
+        }
+    }
+
+    public class ValidationResults {
+        public Result payloadBadFormat(){
+            String message = i18n.get("validation.payload.badFormat");
+
+            return Results.badRequest().json().render(new ErrorResponse(message));
+        }
+
+        public Result pathParametersAreIncorrect(){
+            String message = i18n.get("validation.request.path.parametersAreIncorrect");
+
+            return Results.badRequest().json().render(new ErrorResponse(message));
+        }
+    }
+
+    public static class ErrorResponse {
+        private String message;
+
+        public ErrorResponse(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
         }
     }
 }
