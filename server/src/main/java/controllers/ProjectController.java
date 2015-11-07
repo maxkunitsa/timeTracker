@@ -6,7 +6,6 @@ import filters.AuthFilter;
 import models.Project;
 import ninja.FilterWith;
 import ninja.Result;
-import ninja.Results;
 import ninja.validation.JSR303Validation;
 import ninja.validation.Validation;
 import org.slf4j.Logger;
@@ -48,9 +47,7 @@ public class ProjectController {
                          Validation validation) {
 
         if (project == null || validation.hasViolations()) {
-            String errorMessage = i18n.get("validation.payload.badFormat");
-
-            return Results.badRequest().json().render(new Error(errorMessage));
+            return resultsBuilder.validation().payloadBadFormat();
         }
 
         project = projectService.create(project);
