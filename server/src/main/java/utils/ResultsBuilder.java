@@ -26,6 +26,7 @@ public class ResultsBuilder {
 
     private ProjectResults projects = new ProjectResults();
     private ValidationResults validation = new ValidationResults();
+    private SystemResults system = new SystemResults();
 
     public ProjectResults projects() {
         return projects;
@@ -33,6 +34,10 @@ public class ResultsBuilder {
 
     public ValidationResults validation(){
         return validation;
+    }
+
+    public SystemResults system(){
+        return system;
     }
 
     public class ProjectResults {
@@ -58,6 +63,14 @@ public class ResultsBuilder {
             String message = i18n.get("validation.request.path.parametersAreIncorrect");
 
             return Results.badRequest().json().render(new ErrorResponse(message));
+        }
+    }
+
+    public class SystemResults {
+        public Result unauthorized() {
+            String message = i18n.get("ninja.system.unauthorized.text");
+
+            return Results.unauthorized().json().render(new ErrorResponse(message));
         }
     }
 
