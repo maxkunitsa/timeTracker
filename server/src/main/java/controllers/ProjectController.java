@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import filters.AuthFilter;
 import models.Project;
-import models.serialization.JsonViews;
 import ninja.FilterWith;
 import ninja.Result;
 import ninja.Results;
@@ -13,8 +12,8 @@ import ninja.validation.Validation;
 import org.slf4j.Logger;
 import services.ProjectService;
 import utils.I18N;
+import utils.ResultsBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,11 +33,14 @@ public class ProjectController {
     @Inject
     private I18N i18n;
 
+    @Inject
+    private ResultsBuilder resultsBuilder;
+
     @FilterWith(AuthFilter.class)
     public Result list() {
         List<Project> projects = projectService.getAll();
 
-        return Results.ok().json().jsonView(JsonViews.Public.class).render(projects);
+        return resultsBuilder.projects().list(projects);
     }
 
     @FilterWith(AuthFilter.class)
@@ -54,6 +56,6 @@ public class ProjectController {
         project = projectService.create(project);
         log.info("Created project: {} {}", project.getId(), project.getName());
 
-        return Results.ok().json().jsonView(JsonViews.Public.class).render(project);
+        return resultsBuilder.projects().created(project);
     }
 }
