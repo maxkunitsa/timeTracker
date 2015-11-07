@@ -65,6 +65,12 @@ public class ResultsBuilder {
 
             return Results.created(Optional.of(resourceUrl)).json().jsonView(JsonViews.Public.class).render(project);
         }
+
+        public Result doesNotExists(String projectId) {
+            String message = i18n.get("project.doesNotExists", projectId);
+
+            return Results.notFound().json().render(new ErrorResponse(message));
+        }
     }
 
     /**

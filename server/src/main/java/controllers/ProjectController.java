@@ -1,16 +1,18 @@
 package controllers;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import filters.AuthFilter;
 import models.Project;
 import ninja.FilterWith;
 import ninja.Result;
+import ninja.params.PathParam;
 import ninja.validation.JSR303Validation;
 import ninja.validation.Validation;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import services.ProjectService;
-import utils.I18N;
 import utils.ResultsBuilder;
 
 import java.util.List;
@@ -30,16 +32,13 @@ public class ProjectController {
     private Logger log;
 
     @Inject
-    private I18N i18n;
-
-    @Inject
     private ResultsBuilder resultsBuilder;
 
     @FilterWith(AuthFilter.class)
     public Result list() {
         List<Project> projects = projectService.getAll();
 
-        return resultsBuilder.projects().list(projects);
+        return resultsBuilder.projects().ok(projects);
     }
 
     @FilterWith(AuthFilter.class)
@@ -54,5 +53,36 @@ public class ProjectController {
         log.info("Created project: {} {}", project.getId(), project.getName());
 
         return resultsBuilder.projects().created(project);
+    }
+
+    @FilterWith(AuthFilter.class)
+    public Result getById(@PathParam("id") String projectId) {
+        if (Strings.isNullOrEmpty(projectId) || !ObjectId.isValid(projectId)) {
+            return resultsBuilder.validation().pathParametersAreIncorrect();
+        }
+
+        Project project = projectService.getById(projectId);
+
+        if (project == null) {
+            return resultsBuilder.projects().doesNotExists(projectId);
+        }
+
+        return resultsBuilder.projects().ok(project);
+    }
+
+    @FilterWith(AuthFilter.class)
+    public Result delete(@PathParam("id") String projectId) {
+        if (Strings.isNullOrEmpty(projectId) || !ObjectId.isValid(projectId)) {
+            return resultsBuilder.validation().pathParametersAreIncorrect();
+        }
+
+        if (projectService.isExists(projectId)) {
+            projectService.delete(projectId);
+            log.info("Deleted project: {}", projectId);
+
+            return resultsBuilder.projects().ok();
+        } else {
+            return resultsBuilder.projects().doesNotExists(projectId);
+        }
     }
 }
