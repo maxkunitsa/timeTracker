@@ -1,10 +1,12 @@
 package filters;
 
 import com.google.inject.Inject;
-import models.dto.Error;
-import ninja.*;
+import ninja.Context;
+import ninja.Filter;
+import ninja.FilterChain;
+import ninja.Result;
 import utils.Constants;
-import utils.I18N;
+import utils.ResultsBuilder;
 
 /**
  * Checking session, and reject if it doesn't have
@@ -15,15 +17,14 @@ import utils.I18N;
  */
 public class AuthFilter implements Filter {
     @Inject
-    private I18N i18n;
+    private ResultsBuilder resultsBuilder;
 
     @Override
     public Result filter(FilterChain filterChain, Context context) {
         if (context.getSession() == null ||
                 context.getSession().get(Constants.Session.USER_ID) == null) {
 
-            String error = i18n.get("ninja.system.unauthorized.text");
-            return Results.unauthorized().json().render(new Error(error));
+            return resultsBuilder.system().unauthorized();
         }
 
         return filterChain.next(context);
