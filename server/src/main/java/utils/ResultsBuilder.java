@@ -37,6 +37,7 @@ public class ResultsBuilder {
     private ObjectMapper mapper = new ObjectMapper();
 
     private ProjectResults projects = new ProjectResults();
+    private TaskResults tasks = new TaskResults();
     private UserResults users = new UserResults();
     private ValidationResults validation = new ValidationResults();
     private SystemResults system = new SystemResults();
@@ -47,6 +48,10 @@ public class ResultsBuilder {
 
     public ProjectResults projects() {
         return projects;
+    }
+
+    public TaskResults tasks() {
+        return tasks;
     }
 
     public UserResults users() {
@@ -89,10 +94,27 @@ public class ResultsBuilder {
             return Results.created(Optional.of(resourceUrl)).json().renderRaw(asJsonBytes(JsonViews.Public.class, project));
         }
 
+        public Result deleted() {
+            return Results.status(HttpStatuses.DELETED).json();
+        }
+
         public Result doesNotExists(String projectId) {
             String message = i18n.get("project.doesNotExists", projectId);
 
             return Results.notFound().json().render(new ErrorResponse(message));
+        }
+    }
+
+    /**
+     * Task related results builder.
+     */
+    public class TaskResults {
+        public Result ok(Object data) {
+            return Results.ok().json().renderRaw(asJsonBytes(JsonViews.Public.class, data));
+        }
+
+        public Result deleted() {
+            return Results.status(HttpStatuses.DELETED).json();
         }
     }
 
