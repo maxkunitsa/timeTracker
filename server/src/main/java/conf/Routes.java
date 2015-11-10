@@ -19,6 +19,7 @@ package conf;
 
 import controllers.ApplicationController;
 import controllers.ProjectController;
+import controllers.TaskController;
 import controllers.UserController;
 import ninja.AssetsController;
 import ninja.Router;
@@ -40,6 +41,10 @@ public class Routes implements ApplicationRoutes {
         router.GET().route("/projects/{id}").with(ProjectController.class, "getById");
         router.POST().route("/projects/create").with(ProjectController.class, "create");
         router.DELETE().route("/projects/{id}").with(ProjectController.class, "delete");
+
+        /* Task management */
+        router.GET().route("/projects/{projectId}/tasks").with(TaskController.class, "list");
+        router.POST().route("/projects/{projectId}/tasks").with(TaskController.class, "create");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)
