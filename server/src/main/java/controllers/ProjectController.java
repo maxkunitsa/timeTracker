@@ -80,7 +80,7 @@ public class ProjectController {
             projectService.delete(projectId);
             log.info("Deleted project: {}", projectId);
 
-            return resultsBuilder.projects().ok();
+            return resultsBuilder.projects().deleted();
         } else {
             return resultsBuilder.projects().doesNotExists(projectId);
         }
