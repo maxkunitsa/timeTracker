@@ -1,5 +1,8 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Optional;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -10,6 +13,7 @@ import models.serialization.JsonViews;
 import ninja.Result;
 import ninja.Results;
 import ninja.Router;
+import org.slf4j.Logger;
 
 /**
  * Http Result builder.
@@ -25,12 +29,21 @@ public class ResultsBuilder {
     private I18N i18n;
 
     @Inject
+    private Logger log;
+
+    @Inject
     private Router router;
+
+    private ObjectMapper mapper = new ObjectMapper();
 
     private ProjectResults projects = new ProjectResults();
     private UserResults users = new UserResults();
     private ValidationResults validation = new ValidationResults();
     private SystemResults system = new SystemResults();
+
+    public ResultsBuilder() {
+        mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+    }
 
     public ProjectResults projects() {
         return projects;
@@ -48,6 +61,16 @@ public class ResultsBuilder {
         return system;
     }
 
+    private byte[] asJsonBytes(Class view, Object object) {
+        try {
+            return mapper.writerWithView(view).writeValueAsBytes(object);
+        } catch (JsonProcessingException e) {
+            log.error("Exception during object serialization", e);
+
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Project related results builder.
      */
@@ -57,13 +80,13 @@ public class ResultsBuilder {
         }
 
         public Result ok(Object data) {
-            return Results.ok().json().jsonView(JsonViews.Public.class).render(data);
+            return Results.ok().json().renderRaw(asJsonBytes(JsonViews.Public.class, data));
         }
 
         public Result created(Project project) {
             String resourceUrl = router.getReverseRoute(ProjectController.class, "getById", "id", project.getId());
 
-            return Results.created(Optional.of(resourceUrl)).json().jsonView(JsonViews.Public.class).render(project);
+            return Results.created(Optional.of(resourceUrl)).json().renderRaw(asJsonBytes(JsonViews.Public.class, project));
         }
 
         public Result doesNotExists(String projectId) {
@@ -78,7 +101,7 @@ public class ResultsBuilder {
      */
     public class UserResults {
         public Result ok(User user) {
-            return Results.ok().json().jsonView(JsonViews.Public.class).render(user);
+            return Results.ok().json().renderRaw(asJsonBytes(JsonViews.Public.class, user));
         }
 
         public Result userAlreadyExists(User user) {
