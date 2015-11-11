@@ -95,7 +95,7 @@ public class ResultsBuilder {
         }
 
         public Result deleted() {
-            return Results.status(HttpStatuses.DELETED).json();
+            return Results.status(HttpStatuses.NO_CONTENT).json();
         }
 
         public Result doesNotExists(String projectId) {
@@ -114,7 +114,7 @@ public class ResultsBuilder {
         }
 
         public Result deleted() {
-            return Results.status(HttpStatuses.DELETED).json();
+            return Results.status(HttpStatuses.NO_CONTENT).json();
         }
     }
 
