@@ -116,6 +116,12 @@ public class ResultsBuilder {
         public Result deleted() {
             return Results.status(HttpStatuses.NO_CONTENT).json();
         }
+
+        public Result doesNotExists(String taskId) {
+            String message = i18n.get("task.doesNotExists", taskId);
+
+            return Results.notFound().json().render(new ErrorResponse(message));
+        }
     }
 
     /**

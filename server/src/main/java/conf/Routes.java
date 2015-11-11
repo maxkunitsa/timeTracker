@@ -45,6 +45,7 @@ public class Routes implements ApplicationRoutes {
         /* Task management */
         router.GET().route("/projects/{projectId}/tasks").with(TaskController.class, "list");
         router.POST().route("/projects/{projectId}/tasks").with(TaskController.class, "create");
+        router.DELETE().route("/tasks/{taskId}").with(TaskController.class, "delete");
 
         ///////////////////////////////////////////////////////////////////////
         // Assets (pictures / javascript)

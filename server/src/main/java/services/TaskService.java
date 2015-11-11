@@ -32,6 +32,17 @@ public class TaskService {
     }
 
     /**
+     * Checks is task with specified id exists.
+     *
+     * @param taskId id of the task
+     * @return true if task exists, false - otherwise
+     */
+    public boolean isExists(String taskId) {
+        return tasks.count("{_id: #}", new ObjectId(taskId)) > 0;
+    }
+
+
+    /**
      * Storing a new task.
      *
      * @param task task to be saved.

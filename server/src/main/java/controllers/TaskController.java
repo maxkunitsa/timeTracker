@@ -72,4 +72,20 @@ public class TaskController {
 
         return resultsBuilder.tasks().ok(task);
     }
+
+    @FilterWith(AuthFilter.class)
+    public Result delete(@PathParam("taskId") String taskId) {
+        if (!ObjectId.isValid(taskId)) {
+            return resultsBuilder.validation().pathParametersAreIncorrect();
+        }
+
+        if (taskService.isExists(taskId)) {
+            taskService.delete(taskId);
+            log.info("Deleted task: {}", taskId);
+
+            return resultsBuilder.tasks().deleted();
+        } else {
+            return resultsBuilder.tasks().doesNotExists(taskId);
+        }
+    }
 }
