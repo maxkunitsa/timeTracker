@@ -41,6 +41,15 @@ public class TaskService {
         return tasks.count("{_id: #}", new ObjectId(taskId)) > 0;
     }
 
+    /**
+     * Finds a task by Id, if exists.
+     *
+     * @param taskId id of the task to be found
+     * @return task object if exists, null - otherwise
+     */
+    public Task getById(String taskId) {
+        return tasks.findOne("{_id: #}", new ObjectId(taskId)).as(Task.class);
+    }
 
     /**
      * Storing a new task.
@@ -50,6 +59,12 @@ public class TaskService {
      */
     public Task save(Task task) {
         tasks.insert(task);
+
+        return task;
+    }
+
+    public Task update(Task task){
+        tasks.save(task);
 
         return task;
     }
