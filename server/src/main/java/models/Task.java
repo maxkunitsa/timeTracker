@@ -28,8 +28,11 @@ public class Task {
     @JsonView(JsonViews.Public.class)
     private String projectId;
 
-    public Task() {
+    @JsonView(JsonViews.Public.class)
+    private Timer timer = new Timer();
 
+    public Task() {
+        //TODO: subscribe on timer events
     }
 
     public String getId() {
@@ -54,5 +57,9 @@ public class Task {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 }
