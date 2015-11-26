@@ -113,6 +113,10 @@ public class ResultsBuilder {
             return Results.ok().json().renderRaw(asJsonBytes(JsonViews.Public.class, data));
         }
 
+        public Result ok() {
+            return Results.status(HttpStatuses.NO_CONTENT).json();
+        }
+
         public Result deleted() {
             return Results.status(HttpStatuses.NO_CONTENT).json();
         }
